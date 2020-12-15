@@ -8,7 +8,12 @@
 
 `$ react-native link react-native-mind-plugin`
 
+### pod install
+
+`$ cd ios && pod install`
+
 ## Usage
+
 ```javascript
 import MindPlugin from 'react-native-mind-plugin';
 
