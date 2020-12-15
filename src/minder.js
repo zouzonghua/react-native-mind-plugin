@@ -42,7 +42,7 @@ class Minder extends Component {
     this.moveToStart = this.moveToStart.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
