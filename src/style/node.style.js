@@ -27,6 +27,7 @@ module.exports = {
       fontFamily: 'Heiti SC',
       x: 10,
       y: 10,
+      fill: '#000',
     },
     nodeBox: {
       ry: 6,
@@ -53,6 +54,7 @@ module.exports = {
       fontFamily: 'Heiti SC',
       x: 10,
       y: 10,
+      fill: '#000',
     },
     nodeBox: {
       ry: 6,
@@ -89,6 +91,7 @@ module.exports = {
       fontFamily: 'Heiti SC',
       x: 10,
       y: 10,
+      fill: '#000',
     },
     nodeBox: {
       ry: 6,
@@ -113,6 +116,7 @@ module.exports = {
       fontFamily: 'Heiti SC',
       marginLeft: 10,
       width: 140,
+      fill: '#000',
     },
   },
 };
