@@ -5,10 +5,10 @@ import nodeStyle from '../style/node.style';
 import command from './command';
 import options from './options';
 
-//获取文字宽度 TODO: 待实现
-// const testLength = NativeModules.Testlength;
-//切分文字 TODO: 待实现
-// const splitText = NativeModules.splitTextByWidth;
+//获取文字宽度
+const testLength = NativeModules.TestLength;
+//切分文字
+const splitText = NativeModules.SplitTextByWidth;
 
 let algorithm = {};
 
@@ -147,24 +147,26 @@ class NodeTree {
         //去除空格
         node.data.title = ClearBr(node.data.title);
 
-        // testLength.processString(node.data.title, {
-        //     font: 'Heiti SC',
-        //     fontSize: node.style.title.fontSize
-        // }, {
-        //         width: 400,
-        //         height: 50
-        //     },
-        //     (error, w, h) => {
-        //         node.titleBox.height = Number(h) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
-        //         node.titleBox.width = Number(w) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
-        //         resolve();
-        //     });
+        testLength.processString(node.data.title, {
+            font: 'Heiti SC',
+            fontSize: node.style.title.fontSize
+        }, {
+                width: 400,
+                height: 50
+            },
+            (error, w, h) => {
+                node.titleBox.height = Number(h) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
+                node.titleBox.width = Number(w) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
+              console.log(node.titleBox.width, 'w', node.titleBox.height, 'h', node.data.title,'node.data.title')
 
-        node.titleBox.height =
-          Number(40) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
-        node.titleBox.width =
-          Number(50) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
-        resolve();
+                resolve();
+            });
+
+        // node.titleBox.height =
+        //   Number(40) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
+        // node.titleBox.width =
+        //   Number(50) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
+        // resolve();
       });
 
       promiseList.push(p);
@@ -178,26 +180,26 @@ class NodeTree {
             node.serializeContent[0].file_name
           );
           // TODO: p1 Start
-          //   let p1 = new Promise((resolve, reject) => {
-          //     splitText.processString(
-          //       node.serializeContent[0].file_name,
-          //       {
-          //         font: 'Heiti SC',
-          //         fontSize: node.style.title.fontSize,
-          //       },
-          //       {
-          //         width: node.style.fileName.width,
-          //         height: 50,
-          //       },
-          //       (error, textList) => {
-          //         node.data.fileNameList = textList;
-          //         resolve();
-          //       }
-          //     );
-          //   });
-          //   promiseList.push(p1);
+            let p1 = new Promise((resolve, reject) => {
+              splitText.processString(
+                node.serializeContent[0].file_name,
+                {
+                  font: 'Heiti SC',
+                  fontSize: node.style.title.fontSize,
+                },
+                {
+                  width: node.style.fileName.width,
+                  height: 50,
+                },
+                (error, textList) => {
+                  node.data.fileNameList = textList;
+                  resolve();
+                }
+              );
+            });
+            promiseList.push(p1);
           // TODO: End
-          node.data.fileNameList = [];
+          // node.data.fileNameList = [];
         }
       }
 
@@ -207,29 +209,31 @@ class NodeTree {
         if (node.data.content && node.data.content.length) {
           //去除空格
           node.data.content = ClearBr(node.data.content);
+          console.log(node.style.text.fontSize, 'node.style.text.fontSize')
+          console.log(node.style.text.width, 'node.style.text.width')
           // TODO: p2 Start
-          //   let p2 = new Promise((resolve, reject) => {
-          //     splitText.processString(
-          //       node.data.content,
-          //       {
-          //         font: 'Heiti SC',
-          //         fontSize: node.style.text.fontSize,
-          //       },
-          //       {
-          //         width: node.style.text.width,
-          //         height: 50,
-          //       },
-          //       (error, textList) => {
-          //         node.data.contentList = textList.filter((item) => {
-          //           return item !== '';
-          //         });
-          //         resolve();
-          //       }
-          //     );
-          //   });
-          //   promiseList.push(p2);
+            let p2 = new Promise((resolve, reject) => {
+              splitText.processString(
+                node.data.content,
+                {
+                  font: 'Heiti SC',
+                  fontSize: node.style.text.fontSize,
+                },
+                {
+                  width: node.style.text.width,
+                  height: 50,
+                },
+                (error, textList) => {
+                  node.data.contentList = textList.filter((item) => {
+                    return item !== '';
+                  });
+                  resolve();
+                }
+              );
+            });
+            promiseList.push(p2);
           // TODO: End
-          node.data.contentList = [];
+          // node.data.contentList = [];
         }
       }
     });
