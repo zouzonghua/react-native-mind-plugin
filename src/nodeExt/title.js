@@ -11,6 +11,7 @@ class Title extends Component {
 
   render() {
     let { nodeData } = this.props;
+    const textY = (nodeData.shape.height + (nodeStyle.title.title.fontSize / 2)) / 2
     return (
       <G>
         <Rect
@@ -18,7 +19,7 @@ class Title extends Component {
           width={nodeData.shape.width}
           height={nodeData.shape.height}
         />
-        <Text {...nodeStyle.title.title}>{nodeData.data.title}</Text>
+        <Text {...nodeStyle.title.title} y={textY}>{nodeData.data.title}</Text>
       </G>
     );
   }
