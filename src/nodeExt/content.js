@@ -17,15 +17,17 @@ class Content extends Component {
       if (item === '') {
         return false;
       }
+      // 正文文本 Y 轴
+      const contentTextY =
+        nodeData.titleBox.height +
+        nodeStyle.content.content.paddingTop +
+        nodeStyle.content.text.fontSize +
+        index * nodeStyle.lineHeight;
       return (
         <Text
           key={index}
           {...nodeStyle.content.text}
-          y={
-            nodeData.titleBox.height +
-            nodeStyle.content.content.paddingTop +
-            index * nodeStyle.lineHeight
-          }
+          y={contentTextY}
           x={
             nodeStyle.content.content.x + nodeStyle.content.content.paddingLeft
           }
@@ -39,8 +41,7 @@ class Content extends Component {
       textList = (
         <Text
           {...nodeStyle.content.text}
-          fontSize="12"
-          y={nodeData.titleBox.height + 2}
+          y={nodeData.titleBox.height + nodeStyle.content.text.fontSize}
           x={
             nodeStyle.content.content.x + nodeStyle.content.content.paddingLeft
           }
@@ -49,6 +50,9 @@ class Content extends Component {
         </Text>
       );
     }
+    // 标题文本 Y 轴
+    const titleTextY =
+      (nodeData.titleBox.height + nodeStyle.title.title.fontSize / 2) / 2;
 
     return (
       <G>
@@ -57,7 +61,9 @@ class Content extends Component {
           width={nodeData.shape.width}
           height={nodeData.shape.height}
         />
-        <Text {...nodeStyle.content.title}>{nodeData.data.title}</Text>
+        <Text {...nodeStyle.content.title} y={titleTextY}>
+          {nodeData.data.title}
+        </Text>
         <Rect
           {...nodeStyle.image.content}
           width={nodeData.contentBox.width - 2 * nodeStyle.image.content.x}
