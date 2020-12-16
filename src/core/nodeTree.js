@@ -162,11 +162,6 @@ class NodeTree {
                 resolve();
             });
 
-        // node.titleBox.height =
-        //   Number(40) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
-        // node.titleBox.width =
-        //   Number(50) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
-        // resolve();
       });
 
       promiseList.push(p);
@@ -179,7 +174,6 @@ class NodeTree {
           node.serializeContent[0].file_name = ClearBr(
             node.serializeContent[0].file_name
           );
-          // TODO: p1 Start
             let p1 = new Promise((resolve, reject) => {
               splitText.processString(
                 node.serializeContent[0].file_name,
@@ -198,8 +192,6 @@ class NodeTree {
               );
             });
             promiseList.push(p1);
-          // TODO: End
-          // node.data.fileNameList = [];
         }
       }
 
@@ -209,9 +201,6 @@ class NodeTree {
         if (node.data.content && node.data.content.length) {
           //去除空格
           node.data.content = ClearBr(node.data.content);
-          console.log(node.style.text.fontSize, 'node.style.text.fontSize')
-          console.log(node.style.text.width, 'node.style.text.width')
-          // TODO: p2 Start
             let p2 = new Promise((resolve, reject) => {
               splitText.processString(
                 node.data.content,
@@ -224,7 +213,11 @@ class NodeTree {
                   height: 50,
                 },
                 (error, textList) => {
-                  node.data.contentList = textList.filter((item) => {
+                  let tempTextList = textList
+                  if (!Array.isArray(tempTextList) && typeof(tempTextList)=='string') {
+                    tempTextList = textList.split(",")
+                  }
+                  node.data.contentList = tempTextList.filter((item) => {
                     return item !== '';
                   });
                   resolve();
@@ -232,8 +225,6 @@ class NodeTree {
               );
             });
             promiseList.push(p2);
-          // TODO: End
-          // node.data.contentList = [];
         }
       }
     });

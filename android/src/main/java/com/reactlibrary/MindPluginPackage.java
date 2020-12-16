@@ -1,6 +1,6 @@
 package com.reactlibrary;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,9 +11,14 @@ import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
 public class MindPluginPackage implements ReactPackage {
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new MindPluginModule(reactContext));
+        List<NativeModule> modules = new ArrayList<>();
+        modules.add(new MindPluginModule(reactContext));
+        modules.add(new TestLength(reactContext));
+        modules.add(new SplitTextByWidth(reactContext));
+        return modules;
     }
 
     @Override
