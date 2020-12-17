@@ -1,5 +1,6 @@
 import Point from './point';
 import Box from './box';
+import { isJsonString } from './utils';
 import nodeStyle from '../style/node.style';
 
 class Node {
@@ -167,9 +168,7 @@ class Node {
   }
 
   get serializeContent() {
-    if (
-      Object.prototype.toString.call(this.data.content) === '[object String]'
-    ) {
+    if ( isJsonString(this.data.content) ) {
       return JSON.parse(this.data.content);
     }
     return this.data.content;

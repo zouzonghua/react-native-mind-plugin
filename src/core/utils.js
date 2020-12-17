@@ -40,3 +40,15 @@ exports.ClearBr = function (key) {
   key = key.replace(/[\r\n]/g, '');
   return key;
 };
+
+exports.isJsonString = function (str) {
+  try {
+    if (typeof JSON.parse(str) == 'object') {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
+};

@@ -24,6 +24,36 @@ class File extends Component {
         </G>
       );
     }
+    const fileNameTextList = nodeData.data.fileNameList.map((item, index) => {
+      if (item === '') {
+        return false;
+      }
+      // 文件名称 Y 轴
+      const fileNameY =
+        nodeData.titleBox.height +
+        nodeStyle.file.content.paddingTop +
+        index * 20;
+      // 文件名称 x 轴
+      const fileNameX =
+        nodeStyle.file.content.x +
+        nodeStyle.file.content.paddingLeft +
+        nodeStyle.file.thumb.singleWidth +
+        nodeStyle.file.fileName.marginLeft;
+      return (
+        <Text
+          key={index}
+          {...nodeStyle.file.fileName}
+          y={fileNameY}
+          x={fileNameX}
+        >
+          {item}
+        </Text>
+      );
+    });
+
+    // 标题文本 Y 轴
+    const titleTextY =
+      (nodeData.titleBox.height + nodeStyle.title.title.fontSize / 2) / 2;
 
     return (
       <G>
@@ -32,14 +62,13 @@ class File extends Component {
           width={nodeData.shape.width}
           height={nodeData.shape.height}
         />
-        <Text {...nodeStyle.file.title}>{nodeData.data.title}</Text>
+        <Text {...nodeStyle.file.title} y={titleTextY}>{nodeData.data.title}</Text>
         <Rect
           {...nodeStyle.image.content}
           width={nodeData.contentBox.width - 2 * nodeStyle.image.content.x}
           height={nodeData.contentBox.height - nodeStyle.image.content.y}
           y={nodeData.titleBox.height}
         />
-
         <G
           y={nodeData.titleBox.height + nodeStyle.file.content.paddingTop}
           x={nodeStyle.file.content.x + nodeStyle.file.content.marginLeft}
@@ -50,40 +79,7 @@ class File extends Component {
             height={nodeStyle.file.thumb.singleHeight}
           />
         </G>
-        {nodeData.data.fileNameList[0] ? (
-          <Text
-            {...nodeStyle.file.fileName}
-            y={nodeData.titleBox.height + nodeStyle.file.content.paddingTop}
-            x={
-              nodeStyle.file.content.x +
-              nodeStyle.file.content.paddingLeft +
-              nodeStyle.file.thumb.singleWidth +
-              nodeStyle.file.fileName.marginLeft
-            }
-          >
-            {nodeData.data.fileNameList[0]}
-          </Text>
-        ) : (
-          <G />
-        )}
-        {nodeData.data.fileNameList[1] ? (
-          <Text
-            {...nodeStyle.file.fileName}
-            y={
-              nodeData.titleBox.height + nodeStyle.file.content.paddingTop + 20
-            }
-            x={
-              nodeStyle.file.content.x +
-              nodeStyle.file.content.paddingLeft +
-              nodeStyle.file.thumb.singleWidth +
-              nodeStyle.file.fileName.marginLeft
-            }
-          >
-            {nodeData.data.fileNameList[1]}
-          </Text>
-        ) : (
-          <G />
-        )}
+        {fileNameTextList}
       </G>
     );
   }

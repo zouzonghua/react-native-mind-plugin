@@ -147,51 +147,69 @@ class NodeTree {
         //去除空格
         node.data.title = ClearBr(node.data.title);
 
-        testLength.processString(node.data.title, {
+        testLength.processString(
+          node.data.title,
+          {
             font: 'Heiti SC',
-            fontSize: node.style.title.fontSize
-        }, {
-                width: 400,
-                height: 50
-            },
-            (error, w, h) => {
-                node.titleBox.height = Number(h) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
-                node.titleBox.width = Number(w) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
-              console.log(node.titleBox.width, 'w', node.titleBox.height, 'h', node.data.title,'node.data.title')
-
-                resolve();
-            });
-
+            fontSize: node.style.title.fontSize,
+          },
+          {
+            width: 400,
+            height: 50,
+          },
+          (error, w, h) => {
+            node.titleBox.height =
+              Number(h) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
+            node.titleBox.width =
+              Number(w) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
+            resolve();
+          }
+        );
       });
 
       promiseList.push(p);
 
       //切分文件标题
+      /**
+       * 文件格式
+       * '[{"file_name": "测试文件标题"}]'
+       */
       if (node.data.content_type === 'content.builtin.attachment') {
         node.data.fileNameList = [];
-        if (node.data.content && node.serializeContent.length) {
+        if (
+          node.data.content &&
+          Array.isArray(node.serializeContent) &&
+          node.serializeContent.length
+        ) {
           //去除空格
           node.serializeContent[0].file_name = ClearBr(
             node.serializeContent[0].file_name
           );
-            let p1 = new Promise((resolve, reject) => {
-              splitText.processString(
-                node.serializeContent[0].file_name,
-                {
-                  font: 'Heiti SC',
-                  fontSize: node.style.title.fontSize,
-                },
-                {
-                  width: node.style.fileName.width,
-                  height: 50,
-                },
-                (error, textList) => {
-                  node.data.fileNameList = textList;
-                  resolve();
+          let p1 = new Promise((resolve, reject) => {
+            splitText.processString(
+              node.serializeContent[0].file_name,
+              {
+                font: 'Heiti SC',
+                fontSize: node.style.title.fontSize,
+              },
+              {
+                width: node.style.fileName.width,
+                height: 50,
+              },
+              (error, textList) => {
+                let tempTextList = textList;
+                if (
+                  !Array.isArray(tempTextList) &&
+                  typeof tempTextList == 'string'
+                ) {
+                  tempTextList = textList.split(',');
                 }
-              );
-            });
-            promiseList.push(p1);
+                node.data.fileNameList = tempTextList;
+                resolve();
+              }
+            );
+          });
+          promiseList.push(p1);
         }
       }
 
@@ -201,30 +219,33 @@ class NodeTree {
         if (node.data.content && node.data.content.length) {
           //去除空格
           node.data.content = ClearBr(node.data.content);
-            let p2 = new Promise((resolve, reject) => {
-              splitText.processString(
-                node.data.content,
-                {
-                  font: 'Heiti SC',
-                  fontSize: node.style.text.fontSize,
-                },
-                {
-                  width: node.style.text.width,
-                  height: 50,
-                },
-                (error, textList) => {
-                  let tempTextList = textList
-                  if (!Array.isArray(tempTextList) && typeof(tempTextList)=='string') {
-                    tempTextList = textList.split(",")
-                  }
-                  node.data.contentList = tempTextList.filter((item) => {
-                    return item !== '';
-                  });
-                  resolve();
+          let p2 = new Promise((resolve, reject) => {
+            splitText.processString(
+              node.data.content,
+              {
+                font: 'Heiti SC',
+                fontSize: node.style.text.fontSize,
+              },
+              {
+                width: node.style.text.width,
+                height: 50,
+              },
+              (error, textList) => {
+                let tempTextList = textList;
+                if (
+                  !Array.isArray(tempTextList) &&
+                  typeof tempTextList == 'string'
+                ) {
+                  tempTextList = textList.split(',');
                 }
-              );
-            });
-            promiseList.push(p2);
+                node.data.contentList = tempTextList.filter((item) => {
+                  return item !== '';
+                });
+                resolve();
+              }
+            );
+          });
+          promiseList.push(p2);
         }
       }
     });
@@ -253,9 +274,12 @@ class NodeTree {
               style.content.singleWidth +
               style.content.paddingLeft +
               style.content.paddingRight +
-              2 * style.content.x;
+              2 * style.content.x +
+              10;
             node.contentBox.height =
-              style.content.singleHeight +
+              (node.data.fileNameList.length > 2
+                ? nodeStyle.file.fileName.fontSize * node.data.fileNameList.length
+                : style.content.singleHeight) +
               style.content.paddingTop +
               style.content.paddingBottom +
               style.content.y;

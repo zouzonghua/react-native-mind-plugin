@@ -83,6 +83,7 @@ module.exports = {
       fontFamily: 'Heiti SC',
       marginLeft: 10,
       width: 100,
+      fill: '#000'
     },
   },
   content: {
