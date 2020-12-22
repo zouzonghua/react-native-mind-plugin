@@ -21,6 +21,8 @@ require('./layout/normal');
 class Minder extends Component {
   static propTypes = {
     dataList: PropTypes.array,
+    onSelect: PropTypes.func,
+    onExpand: PropTypes.func
   };
 
   constructor(props) {
@@ -119,18 +121,20 @@ class Minder extends Component {
     const pageContent = this.props.dataList.map((nodeTree) => {
       return (
         <Collection
+          onSelect={this.props.onSelect}
+          onExpand={this.props.onExpand}
           moveToStart={this.moveToStart}
           nodeTree={nodeTree}
           key={nodeTree.root.data.node_id}
         />
       );
     });
-
     return (
       <View>
         <Svg style={{ flex: 1 }} {...this._panResponder.panHandlers}>
           <G
             x={this.state.x}
+            // 居中
             y={this.state.y + this.props.height / 2}
             scale={this.state.scale}
           >

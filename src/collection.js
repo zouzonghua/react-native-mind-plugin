@@ -12,6 +12,8 @@ import command from './core/command';
 class Collection extends Component {
   static propTypes = {
     nodeTree: PropTypes.object,
+    onSelect: PropTypes.func,
+    onExpand: PropTypes.func
   };
 
   constructor(props) {
@@ -94,7 +96,7 @@ class Collection extends Component {
 
     const nodeList = this.allNode.map((node) => {
       return (
-        <Node redraw={this.layout} nodeData={node} key={node.data.node_id} />
+        <Node onExpand={this.props.onExpand} onSelect={this.props.onSelect} redraw={this.layout} nodeData={node} key={node.data.node_id} />
       );
     });
 
