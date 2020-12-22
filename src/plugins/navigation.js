@@ -124,7 +124,7 @@ class Navigation extends Component {
           x={node.point.x}
           opacity={animateMap[node.data.node_id].opacity}
           strokeWidth="3"
-          onPress={() => {
+          onPressIn={() => {
             emitter.emit('node.press', node);
           }}
         >

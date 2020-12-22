@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { emitter } from './core/utils';
 
 import { Image, G } from 'react-native-svg';
 
 class Expand extends Component {
+
+
+  static propTypes = {
+    nodeData: PropTypes.object,
+    onExpand: PropTypes.func,
+    hideChildren: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,9 +23,10 @@ class Expand extends Component {
   }
 
   hideChildren() {
-    this.state.expand = !this.state.expand;
-    this.props.hideChildren(this.state.expand);
-    emitter.emit('expand.press', this.props.nodeData);
+    this.setState({expand: !this.state.expand}, () => {
+      this.props.hideChildren(this.state.expand);
+      this.props.onExpand && this.props.onExpand(this.props.nodeData)
+    })
   }
 
   render() {
@@ -30,7 +40,7 @@ class Expand extends Component {
     }
 
     return (
-      <G x={x} y={y} onPress={this.hideChildren}>
+      <G x={x} y={y} onPressIn={this.hideChildren}>
         {this.state.expand ? (
           <Image
             href={require('./icon/expand-open.png')}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { emitter } from './core/utils';
 import { G } from 'react-native-svg';
@@ -13,6 +14,13 @@ import Content from './nodeExt/content';
 import command from './core/command';
 
 class Node extends Component {
+
+  static propTypes = {
+    nodeData: PropTypes.object,
+    onSelect: PropTypes.func,
+    onExpand: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
 
@@ -67,13 +75,13 @@ class Node extends Component {
         <Connect nodeData={nodeData} />
         <G
           id={nodeData.data.node_id}
-          onPress={(evn) => {
-            emitter.emit('node.press', nodeData);
+          onPressIn={(evn) => {
+            this.props.onSelect && this.props.onSelect(nodeData)
           }}
         >
           {node}
         </G>
-        <Expand nodeData={nodeData} hideChildren={this.hideChildren} />
+        <Expand onExpand={this.props.onExpand} nodeData={nodeData} hideChildren={this.hideChildren} />
       </G>
     );
   }
