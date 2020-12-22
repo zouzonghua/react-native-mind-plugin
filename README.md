@@ -184,3 +184,13 @@ export default class reactNativeMindExample extends Component {
   }
 }
 ```
+
+## Props
+
+Prop              | Type     | Optional | Default     | Description
+----------------- | -------- | -------- | ----------- | -----------
+height         | number     | Yes      |        | Drawing board height
+width         | number     | Yes      |        | Drawing board width
+dataList         | array     | Yes      |        | 数据
+onSelect         | function     | Yes      |        | 点击节点触发
+onExpand         | function     | Yes      |        | 展开/收起节点时触发
