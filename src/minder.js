@@ -129,7 +129,7 @@ class Minder extends Component {
     });
     return (
       <View {...this._panResponder.panHandlers}>
-        <Svg style={{ flex: 1, backgroundColor: 'red' }}>
+        <Svg style={{ flex: 1}}>
           <G
             x={this.state.x}
             // 居中
