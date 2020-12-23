@@ -48,8 +48,6 @@ class Minder extends Component {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
-      // onStartShouldSetPanResponderCapture: () => true,
-      // onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: this.press,
       onPanResponderMove: this.move,
       onPanResponderRelease: this.pressOut,
@@ -130,8 +128,8 @@ class Minder extends Component {
       );
     });
     return (
-      <View>
-        <Svg style={{ flex: 1 }} {...this._panResponder.panHandlers}>
+      <View {...this._panResponder.panHandlers}>
+        <Svg style={{ flex: 1, backgroundColor: 'red' }}>
           <G
             x={this.state.x}
             // 居中

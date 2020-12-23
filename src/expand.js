@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PanResponder } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { emitter } from './core/utils';
@@ -20,6 +21,14 @@ class Expand extends Component {
       expand: true,
     };
     this.hideChildren = this.hideChildren.bind(this);
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
+      onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
+      onPanResponderGrant: this.handlePanResponderGrant,
+      onPanResponderMove: this.handlePanResponderMove,
+      onPanResponderRelease: this.handlePanResponderEnd,
+      onPanResponderTerminate: this.handlePanResponderEnd,
+    });
   }
 
   hideChildren() {
@@ -28,6 +37,28 @@ class Expand extends Component {
       this.props.onExpand && this.props.onExpand(this.props.nodeData)
     })
   }
+
+
+  handleStartShouldSetPanResponder = e => {
+    console.log('start set pan responder: design space');
+    return true;
+  };
+  handleMoveShouldSetPanResponder = e => {
+    console.log('move set pan responder: design space');
+    return false;
+  };
+  handlePanResponderGrant = e => {
+    this.hideChildren()
+    console.log('grant: design space');
+  };
+
+  handlePanResponderMove = e => {
+    console.log('move: design space');
+  };
+
+  handlePanResponderEnd = e => {
+    console.log('end: design space');
+  };
 
   render() {
     const { nodeData } = this.props;
@@ -40,7 +71,7 @@ class Expand extends Component {
     }
 
     return (
-      <G x={x} y={y} onPressIn={this.hideChildren}>
+      <G x={x} y={y}  {...this.panResponder.panHandlers}>
         {this.state.expand ? (
           <Image
             href={require('./icon/expand-open.png')}

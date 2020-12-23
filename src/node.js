@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { PanResponder } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { emitter } from './core/utils';
 import { G } from 'react-native-svg';
 
 import Connect from './connect';
@@ -25,6 +25,12 @@ class Node extends Component {
     super(props);
 
     this.hideChildren = this.hideChildren.bind(this);
+    this.handlePanResponderGrant = this.handlePanResponderGrant.bind(this);
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => false,
+      onPanResponderGrant: this.handlePanResponderGrant,
+    });
   }
 
   hideChildren(expand) {
@@ -43,6 +49,12 @@ class Node extends Component {
     }
     return false;
   }
+
+  handlePanResponderGrant() {
+    const { nodeData,onSelect } = this.props;
+    onSelect && onSelect(nodeData)
+  };
+
 
   render() {
     let node;
@@ -75,9 +87,7 @@ class Node extends Component {
         <Connect nodeData={nodeData} />
         <G
           id={nodeData.data.node_id}
-          onPressIn={(evn) => {
-            this.props.onSelect && this.props.onSelect(nodeData)
-          }}
+          {...this.panResponder.panHandlers}
         >
           {node}
         </G>
