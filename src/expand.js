@@ -22,12 +22,18 @@ class Expand extends Component {
     };
     this.hideChildren = this.hideChildren.bind(this);
     this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
-      onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-      onPanResponderGrant: this.handlePanResponderGrant,
-      onPanResponderMove: this.handlePanResponderMove,
-      onPanResponderRelease: this.handlePanResponderEnd,
-      onPanResponderTerminate: this.handlePanResponderEnd,
+      // 询问组件是否要劫持事件响应者设置，自己接收事件处理，如果返回 true
+      onStartShouldSetPanResponderCapture: () => true,
+      // 这个视图是否在触摸开始时想成为响应器
+      onStartShouldSetPanResponder: () => {},
+      // 询问组件是否要劫持事件响应者设置，自己接收事件处理，如果返回 true
+      onMoveShouldSetPanResponderCapture: () => false,
+      // 当视图不是响应器时，该指令被在视图上移动的触摸调用：这个视图想“声明”触摸响应吗
+      onMoveShouldSetPanResponder: () => {},
+      // 其他的元素想成为响应器。这种视图应该释放应答吗？返回 true 就是允许释放
+      onPanResponderTerminationRequest: () => true,
+      // 用户松开他们的手指
+      onPanResponderRelease: this.hideChildren,
     });
   }
 
@@ -37,28 +43,6 @@ class Expand extends Component {
       this.props.onExpand && this.props.onExpand(this.props.nodeData)
     })
   }
-
-
-  handleStartShouldSetPanResponder = e => {
-    console.log('start set pan responder: design space');
-    return true;
-  };
-  handleMoveShouldSetPanResponder = e => {
-    console.log('move set pan responder: design space');
-    return false;
-  };
-  handlePanResponderGrant = e => {
-    this.hideChildren()
-    console.log('grant: design space');
-  };
-
-  handlePanResponderMove = e => {
-    console.log('move: design space');
-  };
-
-  handlePanResponderEnd = e => {
-    console.log('end: design space');
-  };
 
   render() {
     const { nodeData } = this.props;

@@ -46,11 +46,23 @@ class Minder extends Component {
 
   UNSAFE_componentWillMount() {
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: this.press,
-      onPanResponderMove: this.move,
-      onPanResponderRelease: this.pressOut,
+        // 询问组件是否要劫持事件响应者设置，自己接收事件处理，如果返回 true
+        onStartShouldSetPanResponderCapture: () => false,
+        // 这个视图是否在触摸开始时想成为响应器
+        onStartShouldSetPanResponder: () => {},
+        // 询问组件是否要劫持事件响应者设置，自己接收事件处理，如果返回 true
+        onMoveShouldSetPanResponderCapture: (e,$gs) => (Math.abs($gs.dx) > 2 || Math.abs($gs.dy) > 2),
+        // 当视图不是响应器时，该指令被在视图上移动的触摸调用：这个视图想“声明”触摸响应吗
+        onMoveShouldSetPanResponder: () => {},
+        // 其他的元素想成为响应器。这种视图应该释放应答吗？返回 true 就是允许释放
+        onPanResponderTerminationRequest: () => true,
+        // 视图现在正在响应触摸事件。这个时候要高亮标明并显示给用户正在发生的事情。
+        onPanResponderGrant: this.press,
+        // 用户正移动他们的手指
+        onPanResponderMove: this.move,
+        // 用户松开他们的手指
+        onPanResponderRelease: this.pressOut,
+
     });
   }
 
@@ -110,7 +122,6 @@ class Minder extends Component {
     this._initX = -point.x;
     this._initY = -point.y;
   }
-
   render() {
     if (!this.props.dataList || !this.props.dataList.length) {
       return <Svg />;
@@ -134,7 +145,7 @@ class Minder extends Component {
             x={this.state.x}
             // 居中
             y={this.state.y + this.props.height / 2}
-            scale={this.state.scale}
+            // scale={this.state.scale}
           >
             {pageContent}
             {options.get('navigation') ? <Navigation /> : <G />}
