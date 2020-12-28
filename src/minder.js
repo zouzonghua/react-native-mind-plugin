@@ -20,7 +20,7 @@ require('./layout/normal');
 
 class Minder extends Component {
   static propTypes = {
-    dataList: PropTypes.array,
+    data: PropTypes.object,
     onSelect: PropTypes.func,
     onExpand: PropTypes.func
   };
@@ -123,21 +123,9 @@ class Minder extends Component {
     this._initY = -point.y;
   }
   render() {
-    if (!this.props.dataList || !this.props.dataList.length) {
+    if (!this.props.data || Object.keys(this.props.data).length === 0) {
       return <Svg />;
     }
-
-    const pageContent = this.props.dataList.map((nodeTree) => {
-      return (
-        <Collection
-          onSelect={this.props.onSelect}
-          onExpand={this.props.onExpand}
-          moveToStart={this.moveToStart}
-          nodeTree={nodeTree}
-          key={nodeTree.root.data.node_id}
-        />
-      );
-    });
     return (
       <View {...this._panResponder.panHandlers}>
         <Svg style={{ flex: 1}}>
@@ -147,7 +135,12 @@ class Minder extends Component {
             y={this.state.y + this.props.height / 2}
             // scale={this.state.scale}
           >
-            {pageContent}
+            <Collection
+              onSelect={this.props.onSelect}
+              onExpand={this.props.onExpand}
+              moveToStart={this.moveToStart}
+              nodeTree={this.props.data}
+            />
             {options.get('navigation') ? <Navigation /> : <G />}
           </G>
         </Svg>

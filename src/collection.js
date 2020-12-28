@@ -21,7 +21,7 @@ class Collection extends Component {
 
     this.state = {
       ready: false,
-      nodeTree: new NodeTree(this.props.nodeTree.root),
+      nodeTree: new NodeTree(this.props.nodeTree),
     };
 
     this.layout = this.layout.bind(this);
@@ -29,6 +29,23 @@ class Collection extends Component {
 
   get allNode() {
     return this.state.nodeTree.allNode;
+  }
+
+  getNodeTreeAllNode(tree) {
+    if(!Array.isArray(tree) || tree.length === 0) {
+      return
+    }
+    let nodes = [];
+    const loop = (tree) => {
+      tree.forEach(item => {
+        nodes.push(item);
+        if (Array.isArray(item.children) && item.children.length) {
+          loop(item.children)
+        }
+      })
+    }
+    loop(tree)
+    return nodes;
   }
 
   layout() {
@@ -46,10 +63,17 @@ class Collection extends Component {
       }
     });
 
-    //重算坐标并重绘绘
+    //重算坐标并重绘
     command.register('redraw', (rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
-        self.state.nodeTree.calcPosition();
+        // 判断是否删除节点
+        if (self.getNodeTreeAllNode([self.props.nodeTree]).length !== self.allNode.length) {
+          self.setState({nodeTree: new NodeTree(this.props.nodeTree)}, () => {
+            self.state.nodeTree.calcPosition();
+          })
+        } else {
+          self.state.nodeTree.calcPosition();
+        }
       }
     });
 
@@ -90,6 +114,7 @@ class Collection extends Component {
   }
 
   render() {
+
     if (!this.state.ready) {
       return <G />;
     }
