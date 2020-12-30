@@ -66,14 +66,7 @@ class Collection extends Component {
     //重算坐标并重绘
     command.register('redraw', (rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
-        // 判断是否删除节点
-        if (self.getNodeTreeAllNode([self.props.nodeTree]).length !== self.allNode.length) {
-          self.setState({nodeTree: new NodeTree(this.props.nodeTree)}, () => {
-            self.state.nodeTree.calcPosition();
-          })
-        } else {
-          self.state.nodeTree.calcPosition();
-        }
+        self.state.nodeTree.calcPosition();
       }
     });
 
@@ -105,6 +98,15 @@ class Collection extends Component {
         return self.state.nodeTree.root;
       }
     });
+
+
+    //重绘 增删改操作
+    command.register('operating', (rootId) => {
+      if (rootId === self.state.nodeTree.root.data.node_id) {
+        self.setState({nodeTree: new NodeTree(this.props.nodeTree)})
+      }
+    });
+
   }
 
   componentDidUpdate(prevProps, prevState) {
