@@ -22,7 +22,8 @@ class Minder extends Component {
   static propTypes = {
     data: PropTypes.object,
     onSelect: PropTypes.func,
-    onExpand: PropTypes.func
+    onExpand: PropTypes.func,
+    onMove: PropTypes.func,
   };
 
   constructor(props) {
@@ -75,6 +76,7 @@ class Minder extends Component {
         x: dx,
         y: dy,
       });
+      this.props.onMove && this.props.onMove()
     }
 
     if (gestureState.numberActiveTouches === 2) {
