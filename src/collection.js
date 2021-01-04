@@ -101,7 +101,7 @@ class Collection extends Component {
 
 
     //重绘 增删改操作
-    command.register('operating', (rootId) => {
+    command.register('render', (rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
         self.setState({nodeTree: new NodeTree(this.props.nodeTree)})
       }
