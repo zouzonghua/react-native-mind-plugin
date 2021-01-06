@@ -55,7 +55,7 @@ class Collection extends Component {
   componentDidMount() {
     const self = this;
 
-    //修改显示模式
+    // 修改显示模式
     command.register('changeLayout', (mode, rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
         self.state.nodeTree.chooseLayout(mode);
@@ -63,14 +63,14 @@ class Collection extends Component {
       }
     });
 
-    //重算坐标并重绘
+    // 重算坐标并重绘
     command.register('redraw', (rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
         self.state.nodeTree.calcPosition();
       }
     });
 
-    //重绘
+    // 重绘
     command.register('layout', (rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
         this.setState({
@@ -79,7 +79,7 @@ class Collection extends Component {
       }
     });
 
-    //获取根节点
+    // 获取根节点
     command.register('getRoot', (rootId) => {
       if (rootId && rootId === self.state.nodeTree.root.data.node_id) {
         return self.state.nodeTree.root;
@@ -90,7 +90,7 @@ class Collection extends Component {
       }
     });
 
-    //获取根节点
+    // 获取根节点
     command.register('moveToStart', (rootId, point) => {
       if (rootId && rootId === self.state.nodeTree.root.data.node_id) {
         this.props.moveToStart(point);
@@ -100,12 +100,21 @@ class Collection extends Component {
     });
 
 
-    //重绘 增删改操作
+    // 重绘 增删改操作
     command.register('render', (rootId) => {
       if (rootId === self.state.nodeTree.root.data.node_id) {
         self.setState({nodeTree: new NodeTree(this.props.nodeTree)})
       }
     });
+
+    // 获取节点数据
+    command.register('getNode', (id) => {
+      if (!id) {
+        return false
+      }
+
+      return self.allNode.find(item => item.data.node_id === id)
+    })
 
   }
 
