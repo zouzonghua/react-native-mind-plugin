@@ -11,7 +11,27 @@ class Title extends Component {
 
   render() {
     let { nodeData } = this.props;
-    const textY = (nodeData.shape.height + (nodeStyle.title.title.fontSize / 2)) / 2
+    const textList = nodeData.data.titleList.map((item, index) => {
+      if (item === '') {
+        return false;
+      }
+      // 标题文本 Y 轴
+      const titleTextY =
+        index * nodeStyle.lineHeight +
+        nodeStyle.paddingTop +
+        nodeStyle.paddingBottom +
+        nodeStyle.title.title.fontSize / 2;
+      return (
+        <Text
+          key={index}
+          {...nodeStyle.title.title}
+          y={titleTextY}
+        >
+          {item}
+        </Text>
+      );
+    });
+
     return (
       <G>
         <Rect
@@ -19,7 +39,7 @@ class Title extends Component {
           width={nodeData.shape.width}
           height={nodeData.shape.height}
         />
-        <Text {...nodeStyle.title.title} y={textY}>{nodeData.data.title}</Text>
+        {textList}
       </G>
     );
   }

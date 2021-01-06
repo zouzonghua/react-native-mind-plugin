@@ -140,12 +140,11 @@ class NodeTree {
     //计算标题所占长度与高度
     this.allNode.forEach((node) => {
       let p = new Promise((resolve, reject) => {
-        if (node.data.title === '') {
-          node.data.title = 'new node';
-        }
-
         //去除空格
         node.data.title = ClearBr(node.data.title);
+        if (node.data.title === '') {
+          node.data.title = '分支主题';
+        }
 
         testLength.processString(
           node.data.title,
@@ -158,16 +157,47 @@ class NodeTree {
             height: 50,
           },
           (error, w, h) => {
-            node.titleBox.height =
-              Number(h) + nodeStyle.paddingTop + nodeStyle.paddingBottom;
             node.titleBox.width =
               Number(w) + nodeStyle.paddingLeft + nodeStyle.paddingRight;
             resolve();
           }
         );
       });
-
       promiseList.push(p);
+
+      // 切分标题
+      if (node.data.content_type === 'content.builtin.title') {
+        node.data.titleList = [];
+
+        let p1 = new Promise((resolve, reject) => {
+          splitText.processString(
+            node.data.title,
+            {
+              font: 'Heiti SC',
+              fontSize: node.style.title.fontSize,
+            },
+            {
+              width: nodeStyle.content.content.singleWidth,
+              height: 50,
+            },
+            (error, textList) => {
+              let tempTextList = textList;
+              if (
+                !Array.isArray(tempTextList) &&
+                typeof tempTextList == 'string'
+              ) {
+                tempTextList = textList.split(',');
+              }
+              node.data.titleList = tempTextList.filter((item) => {
+                return item !== '';
+              });
+              resolve();
+            }
+          );
+        });
+
+        promiseList.push(p1);
+      }
 
       //切分文件标题
       /**
@@ -185,7 +215,7 @@ class NodeTree {
           node.serializeContent[0].file_name = ClearBr(
             node.serializeContent[0].file_name
           );
-          let p1 = new Promise((resolve, reject) => {
+          let p2 = new Promise((resolve, reject) => {
             splitText.processString(
               node.serializeContent[0].file_name,
               {
@@ -209,7 +239,7 @@ class NodeTree {
               }
             );
           });
-          promiseList.push(p1);
+          promiseList.push(p2);
         }
       }
 
@@ -219,7 +249,7 @@ class NodeTree {
         if (node.data.content && node.data.content.length) {
           //去除空格
           node.data.content = ClearBr(node.data.content);
-          let p2 = new Promise((resolve, reject) => {
+          let p3 = new Promise((resolve, reject) => {
             splitText.processString(
               node.data.content,
               {
@@ -245,7 +275,7 @@ class NodeTree {
               }
             );
           });
-          promiseList.push(p2);
+          promiseList.push(p3);
         }
       }
     });
@@ -278,7 +308,8 @@ class NodeTree {
               10;
             node.contentBox.height =
               (node.data.fileNameList.length > 2
-                ? nodeStyle.file.fileName.fontSize * node.data.fileNameList.length
+                ? nodeStyle.file.fileName.fontSize *
+                  node.data.fileNameList.length
                 : style.content.singleHeight) +
               style.content.paddingTop +
               style.content.paddingBottom +
@@ -295,6 +326,20 @@ class NodeTree {
               style.content.paddingTop +
               style.content.paddingBottom +
               style.content.y;
+            break;
+          case 'content.builtin.title':
+            // 判断如果文字宽度大于最大宽度则需要换行处理
+            const tempWidth =
+              node.titleBox.width > nodeStyle.content.content.singleWidth
+                ? nodeStyle.content.content.singleWidth
+                : node.titleBox.width;
+            node.titleBox.width =
+              tempWidth + nodeStyle.paddingLeft + nodeStyle.paddingRight;
+            node.titleBox.height =
+              nodeStyle.content.content.singleHeight *
+                node.data.titleList.length +
+              nodeStyle.paddingTop +
+              nodeStyle.paddingBottom;
             break;
         }
       });
