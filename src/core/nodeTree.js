@@ -331,10 +331,9 @@ class NodeTree {
             // 判断如果文字宽度大于最大宽度则需要换行处理
             const tempWidth =
               node.titleBox.width > nodeStyle.content.content.singleWidth
-                ? nodeStyle.content.content.singleWidth
+                ? nodeStyle.content.content.singleWidth + nodeStyle.paddingLeft + nodeStyle.paddingRight
                 : node.titleBox.width;
-            node.titleBox.width =
-              tempWidth + nodeStyle.paddingLeft + nodeStyle.paddingRight;
+            node.titleBox.width = tempWidth;
             node.titleBox.height =
               nodeStyle.content.content.singleHeight *
                 node.data.titleList.length +

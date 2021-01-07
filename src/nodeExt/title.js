@@ -20,19 +20,16 @@ class Title extends Component {
         index * nodeStyle.lineHeight +
         nodeStyle.paddingTop +
         nodeStyle.paddingBottom +
-        nodeStyle.title.title.fontSize / 2;
+        5;
       return (
-        <Text
-          key={index}
-          {...nodeStyle.title.title}
-          y={titleTextY}
-        >
+        <Text key={index} {...nodeStyle.title.title} y={titleTextY}>
           {item}
         </Text>
       );
     });
 
-    return (
+    return Array.isArray(nodeData.data.titleList) &&
+      nodeData.data.titleList.length ? (
       <G>
         <Rect
           {...nodeStyle.title.nodeBox}
@@ -41,7 +38,7 @@ class Title extends Component {
         />
         {textList}
       </G>
-    );
+    ) : null;
   }
 }
 
