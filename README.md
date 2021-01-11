@@ -157,11 +157,13 @@ const Example = () => {
 ### 命令
 
 ```javascript
+
 // 重新渲染
 command.exec('render', rootId);
 
 // 获取节点
 command.exec('getNode', nodeId);
+
 ```
 
 ### 事件
