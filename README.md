@@ -6,7 +6,7 @@
 
 - 代码来自于 [`react-native-mind`
   ](https://github.com/zjfjiayou/react-native-mind) ，本人只是做了一些微小的修改使其支持运行在 ReactNative 0.63.3 版本， 对 [`zjfjiayou`](https://github.com/zjfjiayou) 在此表示感谢！
-- 项目插件脚手架来自于 [`create-react-native-module`](https://github.com/brodybits/create-react-native-module)，对 [`brodybits`](https://github.com/brodybits) 在此表示感谢！
+- 项目基础文件使用 [`create-react-native-module`](https://github.com/brodybits/create-react-native-module) 脚手架进行搭建，对 [`brodybits`](https://github.com/brodybits) 在此表示感谢！
 - 同时欢迎感兴趣同学贡献代码，互相交流，互相帮助，互相进步！
 
 ## 安装
@@ -170,8 +170,10 @@ command.exec('getNode', nodeId);
 
   // 选择节点时触发
   onSelect={(e) => console.log('onSelect Event', e)}
+
   // 展开/收起节点时触发
   onExpand={(e) => console.log('onExpand Event', e)}
+
   // 移动节点时触发
   onMove={() => console.log('onMove Event')}
 
@@ -192,4 +194,4 @@ command.exec('getNode', nodeId);
 
 - [`react-native-mind`
   ](https://github.com/zjfjiayou/react-native-mind) - 本项目的原始代码
-- [`create-react-native-module`](https://github.com/brodybits/create-react-native-module) - 本项目插件脚手架
+- [`create-react-native-module`](https://github.com/brodybits/create-react-native-module) - 本项目使用的插件脚手架
