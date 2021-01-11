@@ -1,174 +1,155 @@
 # react-native-mind-plugin
 
-## Getting started
+这是一个 ReactNative 思维导图插件，支持 iOS 14.3 和 Android 11 (其他版本待测试)。
 
-`$ npm install react-native-mind-plugin --save`
+## 声明
 
-### Mostly automatic installation
+- 代码来自于 [`react-native-mind`
+  ](https://github.com/zjfjiayou/react-native-mind) ，本人只是做了一些微小的修改使其支持运行在 ReactNative 0.63.3 版本， 对 [`zjfjiayou`](https://github.com/zjfjiayou) 在此表示感谢！
+- 项目插件脚手架来自于 [`create-react-native-module`](https://github.com/brodybits/create-react-native-module)，对 [`brodybits`](https://github.com/brodybits) 在此表示感谢！
+- 同时欢迎感兴趣同学贡献代码，互相交流，互相帮助，互相进步！
+## 安装
+
+`$ npm install react-native-mind-plugin`
+
+或者
+
+`$ yarn add react-native-mind-plugin`
+
+## 链接
 
 `$ react-native link react-native-mind-plugin`
 
-### pod install
+## pod 安装
 
 `$ cd ios && pod install`
 
-## Usage
+## 使用说明
 
-### Event
-
-```javascript
-#一个节点树开始绘制;
-emitter.on('tree.layout', (rootId) => {
-  console.log(rootId);
-});
-```
+### 初始化
 
 ```javascript
-#点击节点;
-emitter.on('node.press', (node) => {
-  console.log(node);
-});
-```
+import React, { useState } from 'react';
+import { Dimensions, Text, View } from 'react-native';
+const { Minder } = require('react-native-mind-plugin');
+const TOTAL_WIDTH = Dimensions.get('window').width;
+const TOTAL_HEIGHT = Dimensions.get('window').height;
 
-```javascript
-#点击收起展开;
-emitter.on('expand.press', (node) => {
-  console.log(node);
-});
-```
-
-### command
-
-```javascript
-#正常模式;
-command.exec('changeLayout', 'normal', rootId);
-#聚拢模式;
-command.exec('changeLayout', 'compact', rootId);
-```
-
-### Example
-
-```javascript
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  NativeModules,
-  Dimensions
-} from 'react-native';
-
-import { Minder, emitter, command } from 'react-native-mind';
-
-const TOTALWIDTH = Dimensions.get('window').width;
-const TOTALHEIGHT = Dimensions.get('window').height;
-
-let data = {
+const Example = () => {
+  const [minderData, setMinderData] = useState({
     data: {
       node_id: '522bbeef44ec',
-      title: '根节点',
-      // content_type: 'content.builtin.attachment',
-      // content:
-      //   '[{"file_name": "测试文件测试文件测试文件测试文件测试文件测试文件测试文件"}]',
+      title: '如何阅读一本书',
       content_type: 'content.builtin.title',
-      content:
-        '测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本',
+      content: '',
     },
     children: [
       {
         data: {
-          node_id: 'b7f3m1o36u0c',
-          title: '二级节点1',
+          node_id: '3F79F4D44553D7B3EF12DB0DEF92DB7F',
+          title: '第一部分',
           content_type: 'content.builtin.title',
+          content: '',
         },
+        parentId: '522bbeef44ec',
         children: [
           {
             data: {
-              node_id: 'b7f323vlqyp4o',
-              title: '三级节点1',
+              node_id: 'E225DEEACBBE16687493058DEFE2A17C',
+              title: '基础阅读',
               content_type: 'content.builtin.title',
               content: '',
             },
+            parentId: '3F79F4D44553D7B3EF12DB0DEF92DB7F',
           },
           {
             data: {
-              node_id: 'b7f3m1l3qy24o',
-              title: '三级节点2',
+              node_id: 'B049F433F696EEE7294CB801BCC994DC',
+              title: '初级阅读 基本阅读 初步阅读',
               content_type: 'content.builtin.title',
               content: '',
             },
-          },
-          {
-            data: {
-              node_id: 'b7f3m4vl33p4o',
-              title: '三级节点3',
-              content_type: 'content.builtin.title',
-              content: '',
-            },
+            parentId: '3F79F4D44553D7B3EF12DB0DEF92DB7F',
           },
         ],
       },
       {
         data: {
-          node_id: 'b7f3m1o16u2c',
-          title: '二级211111',
+          node_id: 'B8C091C3E756A1E39D66479B4DE0B162',
+          title: '第二部分',
           content_type: 'content.builtin.title',
           content: '',
         },
+        parentId: '522bbeef44ec',
         children: [
           {
             data: {
-              node_id: 'b7f33vlqyp4o',
-              title: '三级节点4',
+              node_id: '61BCD18E9B22103AECAEA8BA9FA0EE08',
+              title: '检视阅读',
               content_type: 'content.builtin.title',
               content: '',
             },
-          },
-          {
-            data: {
-              node_id: 'b7f3m1lqy24o',
-              title: '三级节点5',
-              content_type: 'content.builtin.title',
-              content: '',
-            },
-          },
-          {
-            data: {
-              node_id: 'b7f3mvl33p4o',
-              title: '三级节点6',
-              content_type: 'content.builtin.title',
-              content: '',
-            },
-          },
-          {
-            data: {
-              node_id: 'b7f3mvl323p4o',
-              title: '三级节点7',
-              content_type: 'content.builtin.title',
-              content: '',
-            },
+            parentId: 'B8C091C3E756A1E39D66479B4DE0B162',
           },
         ],
       },
       {
         data: {
-          node_id: 'b7f3m1o26usc',
-          title: '二级3',
+          node_id: 'BCA8E0C3FFE324EEDF526CA184C1FBE8',
+          title: '第三部分',
           content_type: 'content.builtin.title',
           content: '',
         },
+        parentId: '522bbeef44ec',
+        children: [
+          {
+            data: {
+              node_id: '2913E2113016BE6C56642694B68400DA',
+              title: '分析阅读',
+              content_type: 'content.builtin.title',
+              content: '',
+            },
+            parentId: 'BCA8E0C3FFE324EEDF526CA184C1FBE8',
+          },
+        ],
       },
       {
         data: {
-          node_id: 'b7f3m1o26u2c',
-          title: '二级4',
+          node_id: 'B73F84E09A17D29F653B66B632ED8A66',
+          title: '第四部分',
           content_type: 'content.builtin.title',
           content: '',
         },
+        parentId: '522bbeef44ec',
+        children: [
+          {
+            data: {
+              node_id: '017B909351CC932791264520576151D3',
+              title: '阶段目标',
+              content_type: 'content.builtin.title',
+              content: '',
+            },
+            parentId: 'B73F84E09A17D29F653B66B632ED8A66',
+          },
+        ],
       },
     ],
-  };
+    parentId: null,
+  });
+
+  return (
+    <View style={styles.container}>
+      <Minder
+        data={minderData}
+        onSelect={(e) => console.log('onSelect Event', e)}
+        onExpand={(e) => console.log('onExpand Event', e)}
+        onMove={() => console.log('onMove Event')}
+        height={TOTALHEIGHT - 40}
+        width={TOTALWIDTH}
+      ></Minder>
+    </View>
+  );
+};
 
 export default class reactNativeMindExample extends Component {
   render() {
@@ -185,12 +166,42 @@ export default class reactNativeMindExample extends Component {
 }
 ```
 
+### 命令
+
+```javascript
+// 重新渲染
+command.exec('render', rootId);
+
+// 获取节点
+command.exec('getNode', nodeId);
+```
+
+### 事件
+
+```javascript
+
+  // 选择节点时触发
+  onSelect={(e) => console.log('onSelect Event', e)}
+  // 展开/收起节点时触发
+  onExpand={(e) => console.log('onExpand Event', e)}
+  // 移动节点时触发
+  onMove={() => console.log('onMove Event')}
+
+```
+
 ## Props
 
-Prop              | Type     | Optional | Default     | Description
------------------ | -------- | -------- | ----------- | -----------
-height         | number     | Yes      |        | Drawing board height
-width         | number     | Yes      |        | Drawing board width
-data         | object     | Yes      |        | 数据
-onSelect         | function     | Yes      |        | 点击节点触发
-onExpand         | function     | Yes      |        | 展开/收起节点时触发
+| Prop     | Type     | Optional | Default | Description         |
+| -------- | -------- | -------- | ------- | ------------------- |
+| height   | number   | Yes      |         | 高度                |
+| width    | number   | Yes      |         | 宽度                |
+| data     | object   | Yes      |         | 数据                |
+| onSelect | function | Yes      |         | 选择节点时触发      |
+| onExpand | function | Yes      |         | 展开/收起节点时触发 |
+| onMove   | function | Yes      |         | 移动节点时触发      |
+
+## 致谢
+
+- [`react-native-mind`
+  ](https://github.com/zjfjiayou/react-native-mind) - 本项目的原始代码
+- [`create-react-native-module`](https://github.com/brodybits/create-react-native-module) - 本项目插件脚手架
