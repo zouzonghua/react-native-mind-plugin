@@ -195,3 +195,7 @@ command.exec('getNode', nodeId);
 - [`react-native-mind`
   ](https://github.com/zjfjiayou/react-native-mind) - 本项目的原始代码
 - [`create-react-native-module`](https://github.com/brodybits/create-react-native-module) - 本项目使用的插件脚手架
+
+## License
+
+[MIT](./LICENSE)
