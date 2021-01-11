@@ -8,6 +8,7 @@
   ](https://github.com/zjfjiayou/react-native-mind) ，本人只是做了一些微小的修改使其支持运行在 ReactNative 0.63.3 版本， 对 [`zjfjiayou`](https://github.com/zjfjiayou) 在此表示感谢！
 - 项目插件脚手架来自于 [`create-react-native-module`](https://github.com/brodybits/create-react-native-module)，对 [`brodybits`](https://github.com/brodybits) 在此表示感谢！
 - 同时欢迎感兴趣同学贡献代码，互相交流，互相帮助，互相进步！
+
 ## 安装
 
 `$ npm install react-native-mind-plugin`
@@ -151,19 +152,6 @@ const Example = () => {
   );
 };
 
-export default class reactNativeMindExample extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Minder
-          data={dataList}
-          height={TOTALHEIGHT - 40}
-          width={TOTALWIDTH}
-        ></Minder>
-      </View>
-    );
-  }
-}
 ```
 
 ### 命令
