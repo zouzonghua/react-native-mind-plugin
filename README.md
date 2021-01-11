@@ -2,6 +2,8 @@
 
 这是一个 ReactNative 思维导图插件，支持 iOS 14.3 和 Android 11 (其他版本待测试)。
 
+![](https://raw.githubusercontent.com/zouzonghua/ImageHosting/main/img/20210111172339.png)
+
 ## 声明
 
 - 代码来自于 [`react-native-mind`
@@ -151,19 +153,16 @@ const Example = () => {
     </View>
   );
 };
-
 ```
 
 ### 命令
 
 ```javascript
-
 // 重新渲染
 command.exec('render', rootId);
 
 // 获取节点
 command.exec('getNode', nodeId);
-
 ```
 
 ### 事件
