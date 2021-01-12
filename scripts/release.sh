@@ -8,8 +8,8 @@ esac; shift; done
 
 # Default as minor, the argument major, minor or patch:
 if [ -z "$release" ]; then
-    release="1.0.0";
-    # release="patch";
+    # release="0.0.1";
+    release="patch";
 fi
 
 # Default release branch is main
@@ -30,6 +30,6 @@ echo "Current pull origin $branch."
 # Generate version number and tag
 standard-version -r $release --tag-prefix $prefix --infile CHANGELOG.md
 
-git push --follow-tags origin $branch && npm publish
+git push --follow-tags origin $branch
 
 echo "Release finished."
