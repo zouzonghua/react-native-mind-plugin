@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/zouzonghua/react-native-mind-plugin/compare/v0.0.1...v0.0.2) (2021-01-13)
+
+
+### Features
+
+* 编写 TypeScript d.ts 文件、修改导出组件和实例方式（ES6语法） ([d30bf9d](https://github.com/zouzonghua/react-native-mind-plugin/commit/d30bf9d295475eb5e461b5e505efbdb64b65f4bc))
+
+
+### Bug Fixes
+
+* 去除 event-emitter 相关代码（使用这个会导致事件监听每次重复触发） ([16d708b](https://github.com/zouzonghua/react-native-mind-plugin/commit/16d708ba75ee9a4a09276de7e211fd49e7763a9b))
+
 ### 0.0.1 (2021-01-12)
 
 
