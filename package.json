@@ -2,7 +2,7 @@
   "name": "react-native-mind-plugin",
   "title": "React Native Mind Plugin",
   "version": "0.0.2",
-  "description": "TODO",
+  "description": "这是一个 ReactNative 思维导图插件，支持 iOS 14.3 和 Android 11 (其他版本待测试)。",
   "main": "index.js",
   "files": [
     "README.md",
