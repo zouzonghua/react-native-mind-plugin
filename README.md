@@ -34,7 +34,7 @@
 ```javascript
 import React, { useState } from 'react';
 import { Dimensions, Text, View } from 'react-native';
-const { Minder } = require('react-native-mind-plugin');
+import { Minder } from 'react-native-mind-plugin';
 const TOTAL_WIDTH = Dimensions.get('window').width;
 const TOTAL_HEIGHT = Dimensions.get('window').height;
 
