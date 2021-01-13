@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { PanResponder } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { emitter } from './core/utils';
-
 import { Image, G } from 'react-native-svg';
 
 class Expand extends Component {

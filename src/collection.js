@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { emitter } from './core/utils';
-
 import { G } from 'react-native-svg';
 
 import { NodeTree } from './core/nodeTree';
@@ -119,9 +117,6 @@ class Collection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.ready) {
-      emitter.emit('tree.layout', this.state.nodeTree.root);
-    }
   }
 
   render() {

@@ -5,8 +5,6 @@ import { PanResponder, View } from 'react-native';
 
 import { Svg, G } from 'react-native-svg';
 
-import { emitter } from './core/utils';
-
 import options from './core/options';
 import command from './core/command';
 import Collection from './collection';
@@ -152,5 +150,4 @@ class Minder extends Component {
 }
 
 module.exports.Minder = Minder;
-module.exports.emitter = emitter;
 module.exports.command = command;
