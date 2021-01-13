@@ -1,5 +1,2 @@
-import { Minder, emitter, command } from './src/minder';
-
-module.exports.Minder = Minder;
-module.exports.emitter = emitter;
-module.exports.command = command;
+export { default as command } from './src/core/command';
+export { default as Minder } from './src/minder';

@@ -6,7 +6,6 @@ import { PanResponder, View } from 'react-native';
 import { Svg, G } from 'react-native-svg';
 
 import options from './core/options';
-import command from './core/command';
 import Collection from './collection';
 
 //引入插件
@@ -16,7 +15,7 @@ import { Navigation } from './plugins';
 require('./layout/compact');
 require('./layout/normal');
 
-class Minder extends Component {
+export default class Minder extends Component {
   static propTypes = {
     data: PropTypes.object,
     onSelect: PropTypes.func,
@@ -148,6 +147,3 @@ class Minder extends Component {
     );
   }
 }
-
-module.exports.Minder = Minder;
-module.exports.command = command;
