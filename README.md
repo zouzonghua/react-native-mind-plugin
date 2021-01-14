@@ -25,10 +25,6 @@ yarn add react-native-svg
 yarn add react-native-mind-plugin
 ```
 
-## 链接
-
-`$ react-native link react-native-mind-plugin`
-
 ## pod 安装
 
 `$ cd ios && pod install`
@@ -38,6 +34,7 @@ yarn add react-native-mind-plugin
 ### 初始化
 
 ```javascript
+
 import React, {useState} from 'react';
 import {Dimensions, View} from 'react-native';
 import {Minder} from 'react-native-mind-plugin';
@@ -153,13 +150,14 @@ const Example = () => {
         onSelect={(e) => console.log('onSelect Event', e)}
         onExpand={(e) => console.log('onExpand Event', e)}
         onMove={() => console.log('onMove Event')}
-        height={TOTAL_WIDTH - 40}
-        width={TOTAL_HEIGHT}
+        height={TOTAL_HEIGHT}
+        width={TOTAL_WIDTH}
       />
     </View>
   );
 };
 export default Example;
+
 ```
 
 ### 命令
