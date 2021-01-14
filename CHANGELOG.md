@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/zouzonghua/react-native-mind-plugin/compare/v0.0.2...v0.0.3) (2021-01-14)
+
+
+### Bug Fixes
+
+* **package.json:** 修复从 `npmjs` 安装插件后缺少文件问题 ([d562b14](https://github.com/zouzonghua/react-native-mind-plugin/commit/d562b14a72d2cfbbeb571663639d6cd6fe8e69f3))
+* **package.json:** 去除 event-emitter 相关依赖包 ([6196586](https://github.com/zouzonghua/react-native-mind-plugin/commit/6196586e5596eb0604d3e506ea2a45146119511e))
+* **package.json:** 去除 pure-render-decorator 相关依赖包 ([a310322](https://github.com/zouzonghua/react-native-mind-plugin/commit/a31032248bcf72223fd776bc18ab6efb24007db0))
+
 ### [0.0.2](https://github.com/zouzonghua/react-native-mind-plugin/compare/v0.0.1...v0.0.2) (2021-01-13)
 
 
