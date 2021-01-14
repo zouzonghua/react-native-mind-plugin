@@ -13,11 +13,17 @@
 
 ## 安装
 
-`$ npm install react-native-mind-plugin`
+```bash
+npm install react-native-svg
+npm install react-native-mind-plugin
+```
 
 或者
 
-`$ yarn add react-native-mind-plugin`
+```bash
+yarn add react-native-svg
+yarn add react-native-mind-plugin
+```
 
 ## 链接
 
@@ -32,9 +38,9 @@
 ### 初始化
 
 ```javascript
-import React, { useState } from 'react';
-import { Dimensions, Text, View } from 'react-native';
-import { Minder } from 'react-native-mind-plugin';
+import React, {useState} from 'react';
+import {Dimensions, View} from 'react-native';
+import {Minder} from 'react-native-mind-plugin';
 const TOTAL_WIDTH = Dimensions.get('window').width;
 const TOTAL_HEIGHT = Dimensions.get('window').height;
 
@@ -141,18 +147,19 @@ const Example = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Minder
         data={minderData}
         onSelect={(e) => console.log('onSelect Event', e)}
         onExpand={(e) => console.log('onExpand Event', e)}
         onMove={() => console.log('onMove Event')}
-        height={TOTALHEIGHT - 40}
-        width={TOTALWIDTH}
-      ></Minder>
+        height={TOTAL_WIDTH - 40}
+        width={TOTAL_HEIGHT}
+      />
     </View>
   );
 };
+export default Example;
 ```
 
 ### 命令
