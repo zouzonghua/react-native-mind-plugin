@@ -1,6 +1,16 @@
-class Command {
+class SingletonCommand {
   constructor() {
     this._command = {};
+    // 一个标志，用来判断是否已将建了该类的实例
+    this.instance = null;
+  }
+
+  // 静态方法: 获取实例（单例）
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new SingletonCommand()
+    }
+    return this.instance
   }
 
   exec(key) {
@@ -24,6 +34,4 @@ class Command {
   }
 }
 
-const command = new Command();
-
-export default command;
+export default SingletonCommand.getInstance();
