@@ -32,14 +32,17 @@ exports.comparePlainObject = function (a, b) {
 });
 
 exports.ClearBr = function (key) {
+  // 匹配<foo> or </foo>
   key = key.replace(/<\/?.+?>/g, '');
+  // 匹配 \n 换行
   key = key.replace(/[\r\n]/g, '');
   return key;
 };
 
+
 exports.isJsonString = function (str) {
   try {
-    if (typeof JSON.parse(str) == 'object') {
+    if (Object.prototype.toString.call(JSON.parse(str)) === '[object Array]') {
       return true;
     } else {
       return false;
