@@ -15,8 +15,10 @@ class SingletonCommand {
 
   exec(key) {
     let result = [];
+    // 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）
     if (this._command.hasOwnProperty(key)) {
       this._command[key].forEach((item) => {
+        // 执行方法时把返回参数存起来
         result.push(item.apply(this, Array.prototype.slice.call(arguments, 1)));
       });
     }
@@ -24,7 +26,6 @@ class SingletonCommand {
     if (result.length === 1) {
       return result[0];
     }
-    return result;
   }
 
   register(key, value) {
@@ -32,6 +33,7 @@ class SingletonCommand {
     this._command[key].push(value);
     return this;
   }
+
 }
 
 export default SingletonCommand.getInstance();
