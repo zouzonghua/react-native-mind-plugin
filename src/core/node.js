@@ -1,6 +1,6 @@
 import Point from './point';
 import Box from './box';
-import { isJsonString } from './utils';
+import { type, isJsonString } from './utils';
 import nodeStyle from '../style/node.style';
 
 class Node {
@@ -20,6 +20,109 @@ class Node {
     this.data = data;
   }
 
+  //获取第一个子节点
+  get firstChild() {
+    for (let i, iEnd = this.children.length; i < iEnd; i++) {
+      if (this.children[i].isFirst()) {
+        return this.children[i];
+      }
+    }
+  }
+
+  /**
+   * 获取最后一个子节点
+   */
+  get lastChild() {
+    for (let i, iEnd = this.children.length; i < iEnd; i++) {
+      if (this.children[i].isLast()) {
+        return this.children[i];
+      }
+    }
+  }
+
+  /**
+   * 获取坐标
+   */
+  get coordinate() {
+    let x1, x2, x3, x4, y1, y2, y3, y4;
+    x4 = x1 = this.point.x - 25;
+    x3 = x2 = this.point.x + this.shape.width;
+    y2 = y1 = this.point.y;
+    y4 = y3 = this.point.y + this.shape.height + 10;
+
+    return { x1, x2, x3, x4, y1, y2, y3, y4 };
+  }
+
+  /**
+   * 获取层级
+   */
+  get level() {
+    let level = 0,
+      ancestor = this.parent;
+    while (ancestor) {
+      level++;
+      ancestor = ancestor.parent;
+    }
+    return level;
+  }
+
+  /**
+   * 序列化内容
+   */
+  get serializeContent() {
+    if (isJsonString(this.data.content)) {
+      return JSON.parse(this.data.content);
+    }
+    return this.data.content;
+  }
+
+  /**
+   * 获取样式
+   */
+  get style() {
+    let style;
+    switch (this.data.content_type) {
+      case 'content.builtin.image':
+        style = nodeStyle.image;
+        break;
+      case 'content.builtin.attachment':
+        style = nodeStyle.file;
+        break;
+      case 'content.builtin.text':
+        style = nodeStyle.content;
+        break;
+      default:
+        style = nodeStyle.title;
+        break;
+    }
+    return style;
+  }
+
+  /**
+   * 获取形状
+   */
+  get shape() {
+    let box = new Box(0, 0);
+    box.width = Math.max(this.titleBox.width, this.contentBox.width);
+    box.height = this.titleBox.height + this.contentBox.height;
+    return box;
+  }
+
+  /**
+   * 获取上一个节点
+   */
+  get prev() {
+    if (this.index === 0 || this.isRoot()) {
+      return null;
+    }
+
+    for (let i = 0, iEnd = this.parent.children.length; i < iEnd; i++) {
+      if (this.parent.children[i].index - 1 === this.index) {
+        return this.parent.children[i];
+      }
+    }
+  }
+
   /**
    * 初始化
    */
@@ -37,7 +140,8 @@ class Node {
    */
   translationY(node) {
     let p1, p2, p3, p4;
-
+    // 矩形1 = p1 + p2 (边与坐标轴平行的矩形，分别由左上角与右下角两点指定)
+    // 矩形2 = p3 + p4 (边与坐标轴平行的矩形，分别由左上角与右下角两点指定)
     p1 = [this.coordinate.x1, this.coordinate.y1];
     p2 = [this.coordinate.x3, this.coordinate.y3];
     p3 = [node.coordinate.x1, node.coordinate.y1];
@@ -84,15 +188,6 @@ class Node {
     }
   }
 
-  //获取第一个子节点
-  get firstChild() {
-    for (let i, iEnd = this.children.length; i < iEnd; i++) {
-      if (this.children[i].isFirst()) {
-        return this.children[i];
-      }
-    }
-  }
-
   /**
    * 共同的父节点
    * @param {*} node
@@ -111,36 +206,12 @@ class Node {
     }
   }
 
-  /**
-   * 获取最后一个子节点
-   */
-  get lastChild() {
-    for (let i, iEnd = this.children.length; i < iEnd; i++) {
-      if (this.children[i].isLast()) {
-        return this.children[i];
-      }
-    }
-  }
-
-  /**
-   * 获取坐标
-   */
-  get coordinate() {
-    let x1, x2, x3, x4, y1, y2, y3, y4;
-    x4 = x1 = this.point.x - 25;
-    x3 = x2 = this.point.x + this.shape.width;
-    y2 = y1 = this.point.y;
-    y4 = y3 = this.point.y + this.shape.height + 10;
-
-    return { x1, x2, x3, x4, y1, y2, y3, y4 };
-  }
-
   getData(key) {
     return key ? this.data[key] : this.data;
   }
 
   setData(key, value) {
-    if (Object.prototype.toString.call(key) === '[object Object]') {
+    if (type.isObject(key)) {
       let data = key;
       for (key in data) {
         if (data.hasOwnProperty(key)) {
@@ -157,49 +228,9 @@ class Node {
     return this.children;
   }
 
-  get level() {
-    let level = 0,
-      ancestor = this.parent;
-    while (ancestor) {
-      level++;
-      ancestor = ancestor.parent;
-    }
-    return level;
-  }
-
-  get serializeContent() {
-    if ( isJsonString(this.data.content) ) {
-      return JSON.parse(this.data.content);
-    }
-    return this.data.content;
-  }
-
-  get style() {
-    let style;
-    switch (this.data.content_type) {
-      case 'content.builtin.image':
-        style = nodeStyle.image;
-        break;
-      case 'content.builtin.attachment':
-        style = nodeStyle.file;
-        break;
-      case 'content.builtin.text':
-        style = nodeStyle.content;
-        break;
-      default:
-        style = nodeStyle.title;
-        break;
-    }
-    return style;
-  }
-
-  get shape() {
-    let box = new Box(0, 0);
-    box.width = Math.max(this.titleBox.width, this.contentBox.width);
-    box.height = this.titleBox.height + this.contentBox.height;
-    return box;
-  }
-
+  /**
+   * 是否根节点
+   */
   isRoot() {
     return this.root === this;
   }
@@ -228,6 +259,7 @@ class Node {
   /**
    * 先序遍历当前节点树
    * @param  {Function} fn 遍历函数
+   * @param {*} excludeThis
    */
   preTraverse(fn, excludeThis) {
     let children = this.getChildren();
@@ -242,6 +274,7 @@ class Node {
   /**
    * 后序遍历当前节点树
    * @param  {Function} fn 遍历函数
+   * @param {*} excludeThis
    */
   postTraverse(fn, excludeThis) {
     let children = this.getChildren();
@@ -253,22 +286,20 @@ class Node {
     }
   }
 
+  /**
+   * 递归
+   * @param {*} fn
+   * @param {*} excludeThis
+   */
   traverse(fn, excludeThis) {
     return this.preTraverse(fn, excludeThis);
   }
 
-  get prev() {
-    if (this.index === 0 || this.isRoot()) {
-      return null;
-    }
-
-    for (let i = 0, iEnd = this.parent.children.length; i < iEnd; i++) {
-      if (this.parent.children[i].index - 1 === this.index) {
-        return this.parent.children[i];
-      }
-    }
-  }
-
+  /**
+   * 插入节点
+   * @param {*} node
+   * @param {*} index
+   */
   insertChild(node, index) {
     if (index === undefined) {
       index = this.children.length;
@@ -281,4 +312,4 @@ class Node {
   }
 }
 
-module.exports = Node;
+export default Node;

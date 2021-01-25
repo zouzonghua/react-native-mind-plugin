@@ -1,7 +1,7 @@
 class SingletonCommand {
   constructor() {
     this._command = {};
-    // 一个标志，用来判断是否已将建了该类的实例
+    // 一个标志，用来判断是否已创建了该类的实例
     this.instance = null;
   }
 

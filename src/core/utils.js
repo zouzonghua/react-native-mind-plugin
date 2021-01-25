@@ -1,4 +1,5 @@
-exports.guid = () => {
+
+export const guid = () => {
   function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   }
@@ -18,29 +19,19 @@ exports.guid = () => {
   );
 };
 
-exports.comparePlainObject = function (a, b) {
+export const comparePlainObject =  (a, b) =>  {
   return JSON.stringify(a) === JSON.stringify(b);
 };
 
-['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'].forEach(function (
-  v
-) {
-  var toString = Object.prototype.toString;
-  exports['is' + v] = function (obj) {
-    return toString.apply(obj) === '[object ' + v + ']';
-  };
-});
-
-exports.ClearBr = function (key) {
+export const ClearBr = value =>  {
   // 匹配<foo> or </foo>
-  key = key.replace(/<\/?.+?>/g, '');
+  value = value.replace(/<\/?.+?>/g, '');
   // 匹配 \n 换行
-  key = key.replace(/[\r\n]/g, '');
-  return key;
+  value = value.replace(/[\r\n]/g, '');
+  return value;
 };
 
-
-exports.isJsonString = function (str) {
+export const isJsonString = str => {
   try {
     if (Object.prototype.toString.call(JSON.parse(str)) === '[object Array]') {
       return true;
@@ -51,3 +42,14 @@ exports.isJsonString = function (str) {
     return false;
   }
 };
+
+const tempTypeMap = {};
+
+['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'].forEach(item => {
+  var toString = Object.prototype.toString;
+  tempTypeMap['is' + item] = (obj) => {
+    return toString.apply(obj) === '[object ' + item + ']';
+  };
+});
+
+export const type = tempTypeMap;

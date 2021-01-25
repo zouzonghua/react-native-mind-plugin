@@ -1,5 +1,5 @@
 import config from '../config';
-import { isObject } from '../core/utils';
+import { type } from '../core/utils';
 
 class SingletonOptions {
   constructor() {
@@ -24,7 +24,7 @@ class SingletonOptions {
   }
 
   set(key, value) {
-    if (isObject(key)) {
+    if (type.isObject(key)) {
       var data = key;
       for (key in data) {
         if (data.hasOwnProperty(key)) {

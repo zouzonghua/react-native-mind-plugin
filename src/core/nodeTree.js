@@ -12,20 +12,18 @@ const splitText = NativeModules.SplitTextByWidth;
 
 let algorithm = {};
 
-function register(name, obj) {
+export const register = (name, obj) => {
   algorithm[name] = obj;
 }
 
-class NodeTree {
+export class NodeTree {
   constructor(nodeData) {
     this._root = this.createNode(nodeData, null);
     this.importNode(this._root, nodeData);
 
     //计算节点大小和位置
     this.calcPosition();
-
     this.chooseLayout = this.chooseLayout.bind(this);
-
     this.chooseLayout(options.get('layout'));
   }
 
@@ -353,6 +351,3 @@ class NodeTree {
     });
   }
 }
-
-module.exports.NodeTree = NodeTree;
-module.exports.register = register;
