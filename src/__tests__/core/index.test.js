@@ -2,8 +2,10 @@ import Box from '../../core/box';
 import Point from '../../core/point';
 import options from '../../core/options';
 import config from '../../config';
-import utils from '../../core/utils';
 import command from '../../core/command';
+import Node from '../../core/node';
+import nodeStyle from '../../style/node.style';
+import * as utils from '../../core/utils';
 
 // 内嵌 describe 函数用于描述一个模块
 describe('core 核心代码测试', () => {
@@ -48,13 +50,47 @@ describe('core 核心代码测试', () => {
     expect(options.get('test')).toBe('test');
   });
 
-  it('测试 Utils 相关方法是否正常运行', () => {
-    expect(utils.isString('str')).toBeTruthy();
-    expect(utils.isFunction(() => {})).toBeTruthy();
-    expect(utils.isArray([])).toBeTruthy();
-    expect(utils.isNumber(1)).toBeTruthy();
-    expect(utils.isObject({})).toBeTruthy();
-    expect(utils.isRegExp(/abc/)).toBeTruthy();
+  it('Node Class 的实例 测试', () => {
+    let data = {
+      data: {
+        node_id: '522bbeef44ec',
+        title: '如何阅读一本书',
+        content_type: 'content.builtin.title',
+        content: '',
+      },
+      children: [],
+      parentId: null,
+    }
+    const node = new Node(data)
+    expect(node.firstChild).toBeFalsy()
+    expect(node.lastChild).toBeFalsy()
+    expect(node.coordinate).toEqual({ x1: -25, x2: 0, x3: 0, x4: -25, y1: 0, y2: 0, y3: 10, y4: 10 })
+    expect(node.level).toBe(0)
+    expect(node.serializeContent).toBeFalsy()
+    expect(node.style).toEqual(nodeStyle.title)
+    expect(node.shape).toEqual({ _width: 0, _height: 0 })
+    expect(node.prev).toBe(null)
+
+  });
+
+  it('NodeTree 的实例 测试', () => {
+
+  })
+
+  it('Command Class 的实例 测试注册和执行是否正常运行', () => {
+    command.register('fn', (param) => {
+      return param
+    })
+    expect(command.exec('fn', 'test')).toBe('test')
+  });
+
+  it('Utils 相关方法是否正常运行', () => {
+    expect(utils.type.isString('str')).toBeTruthy();
+    expect(utils.type.isFunction(() => {})).toBeTruthy();
+    expect(utils.type.isArray([])).toBeTruthy();
+    expect(utils.type.isNumber(1)).toBeTruthy();
+    expect(utils.type.isObject({})).toBeTruthy();
+    expect(utils.type.isRegExp(/abc/)).toBeTruthy();
     const jsonObject = '{"result":true, "count":"1"}';
     const jsonArray = '[{"result":true, "count":"1"}]';
     expect(utils.isJsonString(jsonArray)).toBeTruthy();
@@ -67,10 +103,4 @@ describe('core 核心代码测试', () => {
     expect(utils.guid().length).toBe(36);
   });
 
-  it('Command Class 的实例测试', () => {
-    command.register('fn', (param) => {
-      return param
-    })
-    expect(command.exec('fn', 'test')).toBe('test')
-  });
 });
