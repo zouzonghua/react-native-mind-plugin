@@ -27,7 +27,7 @@ yarn add react-native-mind-plugin
 
 ## pod 安装
 
-`$ cd ios && pod install`
+`cd ios && pod install`
 
 ## 使用说明
 
